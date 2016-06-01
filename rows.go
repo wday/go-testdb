@@ -28,6 +28,9 @@ func (rs *rows) Next(dest []driver.Value) error {
 		return io.EOF // per interface spec
 	}
 
+	if len(rs.rows[rs.pos-1]) > len(dest) {
+		return fmt.Errorf("row too long (%d) for dest columns (%d)")
+	}
 	for i, col := range rs.rows[rs.pos-1] {
 		dest[i] = col
 	}
