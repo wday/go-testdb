@@ -2,6 +2,7 @@ package testdb
 
 import (
 	"database/sql/driver"
+	"fmt"
 	"io"
 )
 
@@ -29,7 +30,7 @@ func (rs *rows) Next(dest []driver.Value) error {
 	}
 
 	if len(rs.rows[rs.pos-1]) > len(dest) {
-		return fmt.Errorf("row too long (%d) for dest columns (%d)")
+		return fmt.Errorf("row too long (%d) for dest columns (%d)", len(rs.rows[rs.pos-1]), len(dest))
 	}
 	for i, col := range rs.rows[rs.pos-1] {
 		dest[i] = col
